@@ -4,14 +4,12 @@ from abc import ABC, abstractmethod
 from tkinter import messagebox, ttk
 
 
-# ---------------------------------------------------------------
-# Jerarquía de clases (modelo)
-# ---------------------------------------------------------------
+
 class FiguraGeometrica(ABC):
     """Clase base: toda figura sabe calcular su volumen y su superficie."""
 
     nombre = "Figura"
-    parametros = []  # etiquetas de los datos que pide cada figura
+    parametros = []  
 
     @abstractmethod
     def volumen(self):
@@ -101,9 +99,7 @@ class Prisma(FiguraGeometrica):
                     + self.ancho * self.altura)
 
 
-# ---------------------------------------------------------------
-# Interfaz gráfica
-# ---------------------------------------------------------------
+
 class VentanaFiguras(tk.Tk):
 
     def __init__(self):
@@ -131,7 +127,7 @@ class VentanaFiguras(tk.Tk):
         self.cambiar_figura()
 
     def crear_componentes(self):
-        # Selección de la figura
+       
         marco_figura = tk.Frame(self)
         marco_figura.pack(padx=15, pady=(12, 5), fill="x")
         tk.Label(marco_figura, text="Figura:").pack(side="left")
@@ -139,10 +135,10 @@ class VentanaFiguras(tk.Tk):
                                           state="readonly", width=16)
         self.combo_figuras.current(0)
         self.combo_figuras.pack(side="left", padx=8)
-        # Listener: cuando se elige otra figura
+      
         self.combo_figuras.bind("<<ComboboxSelected>>", self.cambiar_figura)
 
-        # Imagen de la figura + datos
+       
         marco_medio = tk.Frame(self)
         marco_medio.pack(padx=15, pady=5)
         self.lienzo = tk.Canvas(marco_medio, width=220, height=180,
@@ -154,16 +150,16 @@ class VentanaFiguras(tk.Tk):
                                          padx=10, pady=10)
         self.marco_datos.grid(row=0, column=1, sticky="n")
 
-        # Botones
+        
         marco_botones = tk.Frame(self)
         marco_botones.pack(pady=5)
-        # Listener: clic en el botón
+       
         tk.Button(marco_botones, text="Calcular", width=12,
                   command=self.calcular).grid(row=0, column=0, padx=5)
         tk.Button(marco_botones, text="Limpiar", width=12,
                   command=self.limpiar).grid(row=0, column=1, padx=5)
 
-        # Resultados
+       
         marco_res = tk.LabelFrame(self, text="Resultados", padx=10, pady=10)
         marco_res.pack(padx=15, pady=(5, 12), fill="x")
         self.lbl_volumen = tk.Label(marco_res, text="Volumen: ")
@@ -171,7 +167,7 @@ class VentanaFiguras(tk.Tk):
         self.lbl_volumen.pack(anchor="w")
         self.lbl_superficie.pack(anchor="w")
 
-    # ----- eventos -----
+   
     def cambiar_figura(self, evento=None):
         """Reconstruye los campos de datos y la imagen según la figura elegida."""
         nombre = self.combo_figuras.get()
@@ -186,7 +182,7 @@ class VentanaFiguras(tk.Tk):
                 row=i, column=0, sticky="e", pady=3)
             campo = tk.Entry(self.marco_datos, width=10)
             campo.grid(row=i, column=1, padx=8, pady=3)
-            # Listener: tecla Enter dentro del campo
+      
             campo.bind("<Return>", self.calcular)
             self.campos.append(campo)
 
@@ -246,7 +242,7 @@ class VentanaFiguras(tk.Tk):
         self.limpiar_resultados()
         self.campos[0].focus_set()
 
-    # ----- imágenes de las figuras (dibujadas en el Canvas) -----
+
     def dibujar_figura(self, nombre):
         self.lienzo.delete("all")
         self.dibujos[nombre]()
@@ -256,12 +252,12 @@ class VentanaFiguras(tk.Tk):
         """Dibuja una caja en perspectiva (sirve para el cubo y el prisma)."""
         c = self.lienzo
         c.create_polygon(x, y, x + dx, y - dy, x + dx + ancho, y - dy, x + ancho, y,
-                         fill="#cfe3f5", outline="#333", width=2)          # tapa
+                         fill="#cfe3f5", outline="#333", width=2)        
         c.create_polygon(x + ancho, y, x + dx + ancho, y - dy,
                          x + dx + ancho, y - dy + alto, x + ancho, y + alto,
-                         fill="#8fb8de", outline="#333", width=2)          # lado
+                         fill="#8fb8de", outline="#333", width=2)         
         c.create_rectangle(x, y, x + ancho, y + alto,
-                           fill="#b4d0ec", outline="#333", width=2)        # frente
+                           fill="#b4d0ec", outline="#333", width=2)        
 
     def dibujar_cubo(self):
         self._caja(45, 70, 80, 80, 40, 40)
