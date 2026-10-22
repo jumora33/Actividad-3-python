@@ -2,7 +2,6 @@ import math
 import tkinter as tk
 from tkinter import messagebox
 
-# Rango válido de las notas (cámbialo si tu escala es distinta)
 NOTA_MINIMA = 0.0
 NOTA_MAXIMA = 5.0
 CANTIDAD_NOTAS = 5
@@ -43,7 +42,7 @@ class VentanaNotas(tk.Tk):
         self.crear_componentes()
 
     def crear_componentes(self):
-        # Parte superior: ingreso de notas
+  
         marco_notas = tk.LabelFrame(self, text="Ingrese las cinco notas", padx=10, pady=10)
         marco_notas.pack(padx=15, pady=10, fill="x")
 
@@ -54,7 +53,7 @@ class VentanaNotas(tk.Tk):
             campo.grid(row=i, column=1, padx=10, pady=3)
             self.campos_notas.append(campo)
 
-        # Botones
+    
         marco_botones = tk.Frame(self)
         marco_botones.pack(pady=5)
         tk.Button(marco_botones, text="Calcular", width=12,
@@ -62,7 +61,7 @@ class VentanaNotas(tk.Tk):
         tk.Button(marco_botones, text="Limpiar", width=12,
                   command=self.limpiar).grid(row=0, column=1, padx=5)
 
-        # Parte inferior: resultados
+     
         marco_resultados = tk.LabelFrame(self, text="Resultados", padx=10, pady=10)
         marco_resultados.pack(padx=15, pady=10, fill="x")
 
@@ -87,12 +86,12 @@ class VentanaNotas(tk.Tk):
         for i, campo in enumerate(self.campos_notas):
             texto = campo.get().replace(",", ".").strip()
 
-            # 1. Nota no ingresada (todas son obligatorias)
+    
             if texto == "":
                 self.mostrar_alerta(f"La nota {i + 1} no ha sido ingresada.", campo)
                 return None
 
-            # 2. Dato no numérico
+        
             try:
                 nota = float(texto)
             except ValueError:
@@ -100,13 +99,12 @@ class VentanaNotas(tk.Tk):
                     f"El dato de la nota {i + 1} no es numérico: '{texto}'.", campo)
                 return None
 
-            # 'nan' e 'inf' se convierten a float, pero no son notas válidas
+        
             if not math.isfinite(nota):
                 self.mostrar_alerta(
                     f"El dato de la nota {i + 1} no es numérico: '{texto}'.", campo)
                 return None
 
-            # 3. Fuera del rango permitido
             if nota < NOTA_MINIMA or nota > NOTA_MAXIMA:
                 self.mostrar_alerta(
                     f"La nota {i + 1} debe estar entre {NOTA_MINIMA} y {NOTA_MAXIMA}.",
